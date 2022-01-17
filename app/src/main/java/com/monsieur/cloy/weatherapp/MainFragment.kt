@@ -21,6 +21,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.monsieur.cloy.weatherapp.api.CurrentWeatherData
 import com.monsieur.cloy.weatherapp.api.OneCallWeatherData
+import com.monsieur.cloy.weatherapp.api.OpenWeatherMapApi
 import retrofit2.Response
 
 
@@ -31,7 +32,7 @@ class MainFragment : Fragment() {
     private val units = "metric"
     private val lang = "ru"
 
-    private lateinit var iWeather: IWeather
+    private lateinit var openWeatherMapApi: OpenWeatherMapApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +54,12 @@ class MainFragment : Fragment() {
             .serializeNulls().excludeFieldsWithModifiers(Modifier.FINAL,
                 Modifier.TRANSIENT, Modifier.STATIC).create())).build()
 
-        iWeather = retrofit.create(IWeather::class.java)
+        openWeatherMapApi = retrofit.create(OpenWeatherMapApi::class.java)
 
 
 
         binding.buttonCurrent.setOnClickListener {
-            var callResult = iWeather.getCurrentWeatherData("набережные челны", apiKey, units, lang)
+            var callResult = openWeatherMapApi.getCurrentWeatherData("набережные челны", apiKey, units, lang)
 
             callResult.enqueue(object : Callback<CurrentWeatherData?> {
                 @SuppressLint("SetTextI18n")
@@ -89,7 +90,7 @@ class MainFragment : Fragment() {
         }
 
         binding.buttonOneCall.setOnClickListener {
-            var callResult = iWeather.getOneCallWeatherData("55.76", "52.06", apiKey, units, lang)
+            var callResult = openWeatherMapApi.getOneCallWeatherData("55.76", "52.06", apiKey, units, lang)
 
             callResult.enqueue(object : Callback<OneCallWeatherData?> {
                 @SuppressLint("SetTextI18n")
@@ -119,18 +120,4 @@ class MainFragment : Fragment() {
             })
         }
     }
-
-
-    interface IWeather{
-
-        @GET("/data/2.5/weather")
-        fun getCurrentWeatherData(@Query("q") city: String, @Query("appid") key: String, @Query("units") units: String, @Query("lang") lang: String): Call<CurrentWeatherData>
-
-        @GET("/data/2.5/onecall")
-        fun getOneCallWeatherData(@Query("lat") lat: String, @Query("lon") lon: String, @Query("appid") key: String, @Query("units") units: String, @Query("lang") lang: String): Call<OneCallWeatherData>
-    }
-
-
-
-
 }

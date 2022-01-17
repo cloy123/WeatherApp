@@ -1,11 +1,6 @@
 package com.monsieur.cloy.weatherapp.model
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import com.monsieur.cloy.weatherapp.api.classes.Hourly
-import com.monsieur.cloy.weatherapp.api.classes.Rain
-import com.monsieur.cloy.weatherapp.api.classes.Snow
-import com.monsieur.cloy.weatherapp.api.classes.Weather
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset

@@ -1,16 +1,17 @@
-package com.monsieur.cloy.weatherapp.model
+package com.monsieur.cloy.weatherapp.model.cityWeather
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
+import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import com.monsieur.cloy.weatherapp.api.OneCallWeatherData
-import com.monsieur.cloy.weatherapp.api.classes.Current
-import com.monsieur.cloy.weatherapp.api.classes.Sys
+import com.monsieur.cloy.weatherapp.model.CurrentWeather
+import com.monsieur.cloy.weatherapp.model.DailyWeather
+import com.monsieur.cloy.weatherapp.model.HourlyWeather
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
+@Entity(tableName = "cityWeather")
 class CityWeather(latitude: Double, longitude: Double, cityName: String, timezoneOffset: Int) {
 
     @ColumnInfo(name = "cityWeatherId")
