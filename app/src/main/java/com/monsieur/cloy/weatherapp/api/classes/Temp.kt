@@ -3,28 +3,24 @@ package com.monsieur.cloy.weatherapp.api.classes
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Temp {
+class Temp(
     @SerializedName("morn")
     @Expose
-    var morn: Double? = null//Утренняя температура.
-
+    var morn: Double,//Утренняя температура.
     @SerializedName("day")
     @Expose
-    var day: Double? = null//Дневная температура.
-
+    var day: Double,//Дневная температура.
     @SerializedName("eve")
     @Expose
-    var eve: Double? = null// Вечерняя температура.
-
+    var eve: Double,// Вечерняя температура.
     @SerializedName("night")
     @Expose
-    var night: Double? = null//Ночная температура.
-
+    var night: Double,//Ночная температура.
     @SerializedName("min")
     @Expose
-    var min: Double? = null//Минимальная дневная температура.
-
+    var min: Double,//Минимальная дневная температура.
     @SerializedName("max")
     @Expose
-    var max: Double? = null//Максимальная дневная температура.
+    var max: Double//Максимальная дневная температура.
+) {
 }

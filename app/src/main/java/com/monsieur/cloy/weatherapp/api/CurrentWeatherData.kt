@@ -4,64 +4,51 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.monsieur.cloy.weatherapp.api.classes.*
 
-class CurrentWeatherData {
+class CurrentWeatherData(
     @SerializedName("coord")
     @Expose
-    var coord: Coord? = null
-
+    var coord: Coord,
     @SerializedName("weather")
     @Expose
-    var weather: List<Weather?>? = null
-
+    var weather: List<Weather>,
     @SerializedName("base")
     @Expose
-    var base: String? = null//Внутренний параметр
-
+    var base: String,//Внутренний параметр
     @SerializedName("main")
     @Expose
-    var main: Main? = null
-
+    var main: Main,
     @SerializedName("visibility")
     @Expose
-    var visibility: Int? = null
-
+    var visibility: Int,
     @SerializedName("wind")
     @Expose
-    var wind: Wind? = null
-
+    var wind: Wind,
     @SerializedName("rain")
     @Expose
-    private val rain: Rain? = null
-
+    private val rain: Rain,
     @SerializedName("snow")
     @Expose
-    private val snow: Snow? = null
-
+    private val snow: Snow,
     @SerializedName("clouds")
     @Expose
-    var clouds: Clouds? = null
-
+    var clouds: Clouds,
     @SerializedName("dt")
     @Expose
-    var dt: Int? = null//Время расчета данных, unix, UTC
-
+    var dt: Int,//Время расчета данных, unix, UTC
     @SerializedName("sys")
     @Expose
-    var sys: Sys? = null
-
+    var sys: Sys,
     @SerializedName("timezone")
     @Expose
-    var timezone: Int? = null//Сдвиг в секундах от UTC
-
+    var timezone: Int,//Сдвиг в секундах от UTC
     @SerializedName("id")
     @Expose
-    private var id: Int? = null//Идентификатор города
-
+    private var id: Int,//Идентификатор города
     @SerializedName("name")
     @Expose
-    var name: String? = null//Название города
-
+    var name: String,//Название города
     @SerializedName("cod")
     @Expose
-    var cod: Int? = null//Внутренний параметр
+    var cod: Int//Внутренний параметр
+) {
 }

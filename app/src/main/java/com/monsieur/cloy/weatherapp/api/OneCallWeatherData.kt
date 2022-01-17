@@ -6,40 +6,33 @@ import com.google.gson.annotations.SerializedName
 import com.monsieur.cloy.weatherapp.api.classes.*
 
 
-class OneCallWeatherData {
+class OneCallWeatherData(
     @SerializedName("lat")
     @Expose
-    var lat: Double? = null//широта
-
+    var lat: Double,//широта
     @SerializedName("lon")
     @Expose
-    var lon: Double? = null//долгота
-
+    var lon: Double,//долгота
     @SerializedName("timezone")
     @Expose
-    var timezone: String? = null//Название часового пояса
-
+    var timezone: String,//Название часового пояса
     @SerializedName("timezone_offset")
     @Expose
-    var timezoneOffset: Int? = null//Сдвиг в секундах от UTC
-
+    var timezoneOffset: Int,//Сдвиг в секундах от UTC
     @SerializedName("current")
     @Expose
-    var current: Current? = null//Текущий ответ API данных о погоде
-
+    var current: Current,//Текущий ответ API данных о погоде
     @SerializedName("minutely")
     @Expose
-    var minutely: List<Minutely>? = null//Ответ API данных минутного прогноза погоды
-
+    var minutely: List<Minutely>,//Ответ API данных минутного прогноза погоды
     @SerializedName("hourly")
     @Expose
-    var hourly: List<Hourly>? = null//Почасовой ответ API данных о погоде
-
+    var hourly: List<Hourly>,//Почасовой ответ API данных о погоде
     @SerializedName("daily")
     @Expose
-    var daily: List<Daily>? = null//Ежедневный ответ API данных прогноза погоды
-
+    var daily: List<Daily>,//Ежедневный ответ API данных прогноза погоды
     @SerializedName("alerts")
     @Expose
-    var alerts: List<Alert>? = null//Данные национальных предупреждений о погоде из основных национальных систем предупреждения о погоде.
+    var alerts: List<Alert>//Данные национальных предупреждений о погоде из основных национальных систем предупреждения о погоде.
+) {
 }

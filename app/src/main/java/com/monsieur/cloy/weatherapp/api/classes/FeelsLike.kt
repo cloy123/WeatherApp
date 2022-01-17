@@ -3,20 +3,18 @@ package com.monsieur.cloy.weatherapp.api.classes
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class FeelsLike{
+class FeelsLike(
     @SerializedName("day")
     @Expose
-    var day: Double? = null
-
+    var day: Double,
     @SerializedName("night")
     @Expose
-    var night: Double? = null
-
+    var night: Double,
     @SerializedName("eve")
     @Expose
-    var eve: Double? = null
-
+    var eve: Double,
     @SerializedName("morn")
     @Expose
-    var morn: Double? = null
+    var morn: Double
+) {
 }

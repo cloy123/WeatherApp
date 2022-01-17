@@ -58,20 +58,20 @@ class MainFragment : Fragment() {
 
 
         binding.buttonCurrent.setOnClickListener {
-            var callResult = iWeather.getOneCallWeatherData("55.72", "54.41", apiKey, units, lang)
+            var callResult = iWeather.getCurrentWeatherData("набережные челны", apiKey, units, lang)
 
-            callResult.enqueue(object : Callback<OneCallWeatherData?> {
+            callResult.enqueue(object : Callback<CurrentWeatherData?> {
                 @SuppressLint("SetTextI18n")
                 override fun onResponse(
-                    call: Call<OneCallWeatherData?>?,
-                    response: Response<OneCallWeatherData?>
+                    call: Call<CurrentWeatherData?>?,
+                    response: Response<CurrentWeatherData?>
                 ) {
 
                     if(response.isSuccessful){
                         try {
-//                            val gson = Gson()
-//                            val gsonStr = gson.toJson(response.body())
-                            binding.info.setText(response.body()?.current?.temp.toString() + " " + "наб ч" ?:"нет ответа")
+                            val gson = Gson()
+                            val gsonStr = gson.toJson(response.body())
+                            binding.info.setText(gsonStr + " " + "наб ч" ?:"нет ответа")
                         }
                         catch (e: Exception){
                             binding.info.setText(e.message + "|||||" + e.localizedMessage)
@@ -81,7 +81,7 @@ class MainFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<OneCallWeatherData?>, t: Throwable) {
+                override fun onFailure(call: Call<CurrentWeatherData?>, t: Throwable) {
                     Log.e(TAG, "onFailure")
                     Log.e(TAG, t.toString())
                 }
@@ -100,9 +100,9 @@ class MainFragment : Fragment() {
 
                     if(response.isSuccessful){
                         try {
-//                            val gson = Gson()
-//                            val gsonStr = gson.toJson(response.body())
-                            binding.info.setText(response.body()?.current?.temp.toString() + " " + "елб" ?:"нет ответа")
+                            val gson = Gson()
+                            val gsonStr = gson.toJson(response.body())
+                            binding.info.setText(gsonStr + " " + "елб" ?:"нет ответа")
                         }
                         catch (e: Exception){
                             binding.info.setText(e.message + "|||||" + e.localizedMessage)

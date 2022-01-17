@@ -3,72 +3,57 @@ package com.monsieur.cloy.weatherapp.api.classes
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Current{
+class Current(
     @SerializedName("dt")
     @Expose
-    var dt: Int? = null//Текущее время, Unix, UTC
-
+    var dt: Int,//Текущее время, Unix, UTC
     @SerializedName("sunrise")
     @Expose
-    var sunrise: Int? = null//Время восхода солнца, Unix, UTC
-
+    var sunrise: Int,//Время восхода солнца, Unix, UTC
     @SerializedName("sunset")
     @Expose
-    var sunset: Int? = null//Время заката, Unix, UTC
-
+    var sunset: Int,//Время заката, Unix, UTC
     @SerializedName("temp")
     @Expose
-    var temp: Double? = null//Температура
-
+    var temp: Double,//Температура
     @SerializedName("feels_like")
     @Expose
-    var feelsLike: Double? = null//Температура. Этот температурный параметр определяет человеческое восприятие погоды
-
+    var feelsLike: Double,//Температура. Этот температурный параметр определяет человеческое восприятие погоды
     @SerializedName("pressure")
     @Expose
-    var pressure: Int? = null//Атмосферное давление на уровне моря, гПа
-
+    var pressure: Int,//Атмосферное давление на уровне моря, гПа
     @SerializedName("humidity")
     @Expose
-    var humidity: Int? = null// Влажность, %
-
+    var humidity: Int,// Влажность, %
     @SerializedName("dew_point")
     @Expose
-    var dewPoint: Double? = null//Атмосферная температура (зависит от давления и влажности), ниже которой начинают конденсироваться капли воды и может образовываться роса
-
+    var dewPoint: Double,//Атмосферная температура (зависит от давления и влажности), ниже которой начинают конденсироваться капли воды и может образовываться роса
     @SerializedName("clouds")
     @Expose
-    var clouds: Int? = null//Облачность, %
-
+    var clouds: Int,//Облачность, %
     @SerializedName("uvi")
     @Expose
-    var uvi: Double? = null//Текущий УФ-индекс
-
+    var uvi: Double,//Текущий УФ-индекс
     @SerializedName("visibility")
     @Expose
-    var visibility: Int? = null//Средняя видимость, м
-
+    var visibility: Int,//Средняя видимость, м
     @SerializedName("wind_speed")
     @Expose
-    var windSpeed: Double? = null//Скорость ветра
-
+    var windSpeed: Double,//Скорость ветра
     @SerializedName("wind_gust")
     @Expose
-    var windGust: Double? = null//(при наличии) Порыв ветра
-
+    var windGust: Double,//(при наличии) Порыв ветра
     @SerializedName("wind_deg")
     @Expose
-    var windDeg: Int? = null// Направление ветра, градусы (метеорологические)
-
+    var windDeg: Int,// Направление ветра, градусы (метеорологические)
     @SerializedName("rain")
     @Expose
-    var rain: Rain? = null
-
+    var rain: Rain,
     @SerializedName("snow")
     @Expose
-    var snow: Snow? = null
-
+    var snow: Snow,
     @SerializedName("weather")
     @Expose
-    var weather: List<Weather>? = null
+    var weather: List<Weather>
+) {
 }

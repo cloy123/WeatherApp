@@ -3,24 +3,21 @@ package com.monsieur.cloy.weatherapp.api.classes
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Sys {
+class Sys(
     @SerializedName("type")
     @Expose
-    var type: Int? = null
-
+    var type: Int,
     @SerializedName("id")
     @Expose
-    var id: Int? = null
-
+    var id: Int,
     @SerializedName("country")
     @Expose
-    var country: String? = null
-
+    var country: String,
     @SerializedName("sunrise")
     @Expose
-    var sunrise: Int? = null
-
+    var sunrise: Int,
     @SerializedName("sunset")
     @Expose
-    var sunset: Int? = null
+    var sunset: Int
+) {
 }
