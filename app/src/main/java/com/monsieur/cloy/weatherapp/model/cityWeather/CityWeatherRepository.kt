@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class CityWeatherRepository @Inject constructor(val cityWeatherDao: CityWeatherDao) {
 
-    suspend fun getAllCityWeather(): LiveData<List<CityWeather>> = cityWeatherDao.getAllCityWeather()
+    fun getAllCityWeather(): LiveData<List<CityWeather>> = cityWeatherDao.getAllCityWeather()
 
     suspend fun insertCityWeather(cityWeather: CityWeather){
         cityWeatherDao.insertCityWeather(cityWeather)

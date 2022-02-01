@@ -16,5 +16,5 @@ interface CityWeatherDao {
     suspend fun deleteCityWeather(cityWeather: CityWeather)
 
     @Query("SELECT * FROM cityWeather")
-    suspend fun getAllCityWeather(): LiveData<List<CityWeather>>
+    fun getAllCityWeather(): LiveData<List<CityWeather>>
 }

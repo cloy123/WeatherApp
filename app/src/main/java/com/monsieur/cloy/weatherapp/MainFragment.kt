@@ -57,67 +57,67 @@ class MainFragment : Fragment() {
         openWeatherMapApi = retrofit.create(OpenWeatherMapApi::class.java)
 
 
-
-        binding.buttonCurrent.setOnClickListener {
-            var callResult = openWeatherMapApi.getCurrentWeatherData("набережные челны", apiKey, units, lang)
-
-            callResult.enqueue(object : Callback<CurrentWeatherData?> {
-                @SuppressLint("SetTextI18n")
-                override fun onResponse(
-                    call: Call<CurrentWeatherData?>?,
-                    response: Response<CurrentWeatherData?>
-                ) {
-
-                    if(response.isSuccessful){
-                        try {
-                            val gson = Gson()
-                            val gsonStr = gson.toJson(response.body())
-                            binding.info.setText(gsonStr + " " + "наб ч" ?:"нет ответа")
-                        }
-                        catch (e: Exception){
-                            binding.info.setText(e.message + "|||||" + e.localizedMessage)
-                        }
-                    }else{
-                        binding.info.setText("не Successful")
-                    }
-                }
-
-                override fun onFailure(call: Call<CurrentWeatherData?>, t: Throwable) {
-                    Log.e(TAG, "onFailure")
-                    Log.e(TAG, t.toString())
-                }
-            })
-        }
-
-        binding.buttonOneCall.setOnClickListener {
-            var callResult = openWeatherMapApi.getOneCallWeatherData("55.76", "52.06", apiKey, units, lang)
-
-            callResult.enqueue(object : Callback<OneCallWeatherData?> {
-                @SuppressLint("SetTextI18n")
-                override fun onResponse(
-                    call: Call<OneCallWeatherData?>?,
-                    response: Response<OneCallWeatherData?>
-                ) {
-
-                    if(response.isSuccessful){
-                        try {
-                            val gson = Gson()
-                            val gsonStr = gson.toJson(response.body())
-                            binding.info.setText(gsonStr + " " + "елб" ?:"нет ответа")
-                        }
-                        catch (e: Exception){
-                            binding.info.setText(e.message + "|||||" + e.localizedMessage)
-                        }
-                    }else{
-                        binding.info.setText("не Successful")
-                    }
-                }
-
-                override fun onFailure(call: Call<OneCallWeatherData?>, t: Throwable) {
-                    Log.e(TAG, "onFailure")
-                    Log.e(TAG, t.toString())
-                }
-            })
-        }
+//
+//        binding.buttonCurrent.setOnClickListener {
+//            var callResult = openWeatherMapApi.getCurrentWeatherData("набережные челны", apiKey, units, lang)
+//
+//            callResult.enqueue(object : Callback<CurrentWeatherData?> {
+//                @SuppressLint("SetTextI18n")
+//                override fun onResponse(
+//                    call: Call<CurrentWeatherData?>?,
+//                    response: Response<CurrentWeatherData?>
+//                ) {
+//
+//                    if(response.isSuccessful){
+//                        try {
+//                            val gson = Gson()
+//                            val gsonStr = gson.toJson(response.body())
+//                            binding.info.setText(gsonStr + " " + "наб ч" ?:"нет ответа")
+//                        }
+//                        catch (e: Exception){
+//                            binding.info.setText(e.message + "|||||" + e.localizedMessage)
+//                        }
+//                    }else{
+//                        binding.info.setText("не Successful")
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<CurrentWeatherData?>, t: Throwable) {
+//                    Log.e(TAG, "onFailure")
+//                    Log.e(TAG, t.toString())
+//                }
+//            })
+//        }
+//
+//        binding.buttonOneCall.setOnClickListener {
+//            var callResult = openWeatherMapApi.getOneCallWeatherData("55.76", "52.06", apiKey, units, lang)
+//
+//            callResult.enqueue(object : Callback<OneCallWeatherData?> {
+//                @SuppressLint("SetTextI18n")
+//                override fun onResponse(
+//                    call: Call<OneCallWeatherData?>?,
+//                    response: Response<OneCallWeatherData?>
+//                ) {
+//
+//                    if(response.isSuccessful){
+//                        try {
+//                            val gson = Gson()
+//                            val gsonStr = gson.toJson(response.body())
+//                            binding.info.setText(gsonStr + " " + "елб" ?:"нет ответа")
+//                        }
+//                        catch (e: Exception){
+//                            binding.info.setText(e.message + "|||||" + e.localizedMessage)
+//                        }
+//                    }else{
+//                        binding.info.setText("не Successful")
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<OneCallWeatherData?>, t: Throwable) {
+//                    Log.e(TAG, "onFailure")
+//                    Log.e(TAG, t.toString())
+//                }
+//            })
+//        }
     }
 }
