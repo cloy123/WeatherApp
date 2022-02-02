@@ -24,35 +24,61 @@ fun replaceFragment(fragment: Fragment, addStack: Boolean = true) {
     //APP_ACTIVITY.findViewById<ConstraintLayout>(R.id.container).visibility = View.VISIBLE
 }
 
-fun changeToolBar(menu: Boolean, homeButton: Boolean, title: String){
-    if(toolbarMenu != null && toolbarMenu!!.children.count() > 0){
-        for(menuItem in toolbarMenu?.children!!){
+fun changeToolBar(menu: Boolean, homeButton: Boolean, title: String) {
+    if (toolbarMenu != null && toolbarMenu!!.children.count() > 0) {
+        for (menuItem in toolbarMenu?.children!!) {
             menuItem.isVisible = menu
         }
     }
-    if(homeButton){
+    if (homeButton) {
         addHomeButton()
-    }else{
+    } else {
         deleteHomeButton()
     }
     APP_ACTIVITY.supportActionBar?.title = title
 }
 
-private fun addHomeButton(){
+private fun addHomeButton() {
     val actionBar = APP_ACTIVITY.supportActionBar
     actionBar?.setHomeButtonEnabled(true)
     actionBar?.setDisplayHomeAsUpEnabled(true)
 }
-private fun deleteHomeButton(){
+
+private fun deleteHomeButton() {
     val actionBar = APP_ACTIVITY.supportActionBar
     actionBar?.setHomeButtonEnabled(false)
     actionBar?.setDisplayHomeAsUpEnabled(false)
 }
 
-fun backButton(){
+fun backButton() {
     APP_ACTIVITY.onBackPressed()
 }
 
-fun showToast(message: String){
+fun showToast(message: String) {
     Toast.makeText(APP_ACTIVITY, message, Toast.LENGTH_LONG).show()
+}
+
+fun getPopIconId(pop: Int): Int {
+    return if (pop >= 60) {
+        R.drawable.blob_1
+    } else if (pop >= 20 && pop < 60) {
+        R.drawable.blob_2
+    } else {
+        R.drawable.blob_3
+    }
+}
+
+fun getWeatherIconId(iconName: String):Int{
+    return when(iconName){
+        "01d"-> R.drawable.icon01d
+        "02d"-> R.drawable.icon02d
+        "03d"-> R.drawable.icon03d
+        "04d"-> R.drawable.icon04d
+        "09d"-> R.drawable.icon09d
+        "10d"-> R.drawable.icon10d
+        "11d"-> R.drawable.icon11d
+        "13d"-> R.drawable.icon13d
+        "50d"-> R.drawable.icon50d
+        else -> R.drawable.icon01d
+    }
 }

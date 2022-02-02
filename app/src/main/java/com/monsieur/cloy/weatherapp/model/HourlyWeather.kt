@@ -13,7 +13,7 @@ class HourlyWeather(hourly: Hourly, timezoneOffset: Int) {
 
     var humidity: Int// Влажность, %
 
-    var pop: Double// Вероятность осадков
+    var pop: Int// Вероятность осадков, %
 
     var weatherDescription: String = ""
 
@@ -23,7 +23,7 @@ class HourlyWeather(hourly: Hourly, timezoneOffset: Int) {
         time = LocalDateTime.ofEpochSecond((hourly.dt + timezoneOffset).toLong(), 0, ZoneOffset.UTC).toLocalTime()
         temp = hourly.temp
         humidity = hourly.humidity
-        pop = hourly.pop
+        pop = (hourly.pop * 100).toInt()
         if(hourly.weather.isNotEmpty()) {
             weatherDescription = hourly.weather[0].description
             weatherIcon = hourly.weather[0].icon

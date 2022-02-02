@@ -2,11 +2,12 @@ package com.monsieur.cloy.weatherapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.monsieur.cloy.weatherapp.databinding.ActivityMainBinding
 import com.monsieur.cloy.weatherapp.utilits.APP_ACTIVITY
 import com.monsieur.cloy.weatherapp.utilits.replaceFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     lateinit var binding: ActivityMainBinding
 

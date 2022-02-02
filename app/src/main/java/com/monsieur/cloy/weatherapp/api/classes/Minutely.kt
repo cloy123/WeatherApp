@@ -9,7 +9,7 @@ class Minutely(
     var dt: Int,//Время прогнозируемых данных, unix, UTC
     @SerializedName("precipitation")
     @Expose
-    var precipitation: Int//Объем осадков, мм
+    var precipitation: Double//Объем осадков, мм
 ) {
 
 }
