@@ -30,6 +30,7 @@ import com.monsieur.cloy.weatherapp.ui.DailyWeatherRecyclerAdapter
 import com.monsieur.cloy.weatherapp.ui.HourlyWeatherRecyclerAdapter
 import com.monsieur.cloy.weatherapp.utilits.getWeatherIconId
 import retrofit2.Response
+import java.time.format.DateTimeFormatter
 
 
 class MainFragment : Fragment() {
@@ -128,6 +129,11 @@ class MainFragment : Fragment() {
                             binding.tvDayNightTemp.text = weather.dailyWeather[0].dayTemp.toInt().toString() + "°/" + weather.dailyWeather[0].nightTemp.toInt().toString() + "°"
                             binding.imageCurrentWeatherIcon.setImageResource(getWeatherIconId(weather.currentWeather!!.weatherIcon))
                             binding.toolbar.title = weather.cityName
+                            binding.tvSunrise.text = weather.currentWeather!!.sunrise.format(DateTimeFormatter.ofPattern("HH:mm"))
+                            binding.tvSunset.text = weather.currentWeather!!.sunset.format(DateTimeFormatter.ofPattern("HH:mm"))
+                            binding.tvUvi.text = weather.currentWeather!!.uvi.toInt().toString()
+                            binding.tvWindSpeed.text = weather.currentWeather!!.windSpeed.toInt().toString() + "м/c"
+                            binding.tvHumidity.text = weather.currentWeather!!.humidity.toString() + "%"
                         }else{
                             Toast.makeText(requireContext(), "error1", Toast.LENGTH_LONG).show()
                         }
