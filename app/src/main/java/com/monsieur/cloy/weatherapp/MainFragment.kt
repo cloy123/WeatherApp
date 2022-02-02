@@ -23,8 +23,10 @@ import com.google.gson.Gson
 import com.monsieur.cloy.weatherapp.api.CurrentWeatherData
 import com.monsieur.cloy.weatherapp.api.OneCallWeatherData
 import com.monsieur.cloy.weatherapp.api.OpenWeatherMapApi
+import com.monsieur.cloy.weatherapp.model.DailyWeather
 import com.monsieur.cloy.weatherapp.model.HourlyWeather
 import com.monsieur.cloy.weatherapp.model.cityWeather.CityWeather
+import com.monsieur.cloy.weatherapp.ui.DailyWeatherRecyclerAdapter
 import com.monsieur.cloy.weatherapp.ui.HourlyWeatherRecyclerAdapter
 import com.monsieur.cloy.weatherapp.utilits.getWeatherIconId
 import retrofit2.Response
@@ -54,6 +56,11 @@ class MainFragment : Fragment() {
     fun initHourlyWeatherRecyclerAdapter(items: List<HourlyWeather>){
         val adapter = HourlyWeatherRecyclerAdapter(items)
         binding.recyclerHourlyWeather.adapter = adapter
+    }
+
+    fun initDailyWeatherRecyclerAdapter(items: List<DailyWeather>){
+        val adapter = DailyWeatherRecyclerAdapter(items)
+        binding.recyclerDailyWeather.adapter = adapter
     }
 
     override fun onStart() {
@@ -114,6 +121,7 @@ class MainFragment : Fragment() {
                         if(response.body()!= null){
                             weather.updateWeatherData(response.body()!!)
                             initHourlyWeatherRecyclerAdapter(weather.hourlyWeather)
+                            initDailyWeatherRecyclerAdapter(weather.dailyWeather)
                             binding.tvCityName.text = weather.cityName
                             binding.tvCurrentTemp.text = weather.currentWeather!!.temp!!.toInt().toString() + "°"
                             binding.tvFeelsLikeTemp.text = "Ощущается как " + weather.currentWeather!!.feelsLikeTemp.toInt().toString() + "°"

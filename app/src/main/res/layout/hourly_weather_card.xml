@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="60dp"
+    android:layout_width="70dp"
     android:layout_height="wrap_content"
     android:background="#00000000"
     android:elevation="0dp"
@@ -45,7 +45,7 @@
 
         <TextView
             android:id="@+id/tv_pop"
-            tools:text="74%"
+            tools:text="100%"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

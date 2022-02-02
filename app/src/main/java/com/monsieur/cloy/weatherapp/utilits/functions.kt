@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.monsieur.cloy.weatherapp.R
+import java.time.DayOfWeek
 
 fun replaceFragment(fragment: Fragment, addStack: Boolean = true) {
     /* Функция расширения для AppCompatActivity, позволяет устанавливать фрагменты */
@@ -80,5 +81,17 @@ fun getWeatherIconId(iconName: String):Int{
         "13d"-> R.drawable.icon13d
         "50d"-> R.drawable.icon50d
         else -> R.drawable.icon01d
+    }
+}
+
+fun getDayOfWeek(dayOfWeek: DayOfWeek): String{
+    return when(dayOfWeek){
+        DayOfWeek.MONDAY -> APP_ACTIVITY.getString(R.string.monday)
+        DayOfWeek.TUESDAY -> APP_ACTIVITY.getString(R.string.tuesday)
+        DayOfWeek.WEDNESDAY -> APP_ACTIVITY.getString(R.string.wednesday)
+        DayOfWeek.THURSDAY -> APP_ACTIVITY.getString(R.string.thursday)
+        DayOfWeek.FRIDAY -> APP_ACTIVITY.getString(R.string.friday)
+        DayOfWeek.SATURDAY -> APP_ACTIVITY.getString(R.string.saturday)
+        DayOfWeek.SUNDAY -> APP_ACTIVITY.getString(R.string.sunday)
     }
 }
