@@ -14,7 +14,7 @@ import java.time.ZoneOffset
 @Entity(tableName = "cityWeather")
 class CityWeather(latitude: Double, longitude: Double, cityName: String, timezoneOffset: Int) {
 
-    @ColumnInfo(name = "cityWeatherId")
+    @ColumnInfo(name = "id")
     @NonNull
     @PrimaryKey(autoGenerate = true)
     var id = 0

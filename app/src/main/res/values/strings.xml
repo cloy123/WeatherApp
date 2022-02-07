@@ -16,4 +16,6 @@
     <string name="uvi">УФ-индекс</string>
     <string name="wind">Ветер</string>
     <string name="humidity">Влажность</string>
+    <string name="chosen_place">Избранное место</string>
+    <string name="other_places">Другие места</string>
 </resources>

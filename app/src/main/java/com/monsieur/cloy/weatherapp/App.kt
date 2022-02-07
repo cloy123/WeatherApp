@@ -2,6 +2,7 @@ package com.monsieur.cloy.weatherapp
 
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import com.monsieur.cloy.weatherapp.di.AppComponent
 import com.monsieur.cloy.weatherapp.di.AppModule
 import com.monsieur.cloy.weatherapp.di.DaggerAppComponent
@@ -21,7 +22,7 @@ class App: Application() {
         super.onCreate()
 
         instance = this
-
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .roomModule(RoomModule(this))
