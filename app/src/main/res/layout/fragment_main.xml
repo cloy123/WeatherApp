@@ -8,7 +8,7 @@
     tools:context=".MainFragment"
     android:fitsSystemWindows="false">
 
-        <com.monsieur.cloy.weatherapp.DrawerContent
+        <com.monsieur.cloy.weatherapp.ui.DrawerContent
             android:id="@+id/drawerContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -306,7 +306,7 @@
                 </androidx.core.widget.NestedScrollView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.monsieur.cloy.weatherapp.DrawerContent>
+        </com.monsieur.cloy.weatherapp.ui.DrawerContent>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"

@@ -9,7 +9,7 @@ class CurrentWeather(current: Current, timezoneOffset: Int) {
 
     var sunset: LocalTime//Время заката
 
-    var temp: Double? = null//Температура
+    var temp: Double//Температура
 
     var feelsLikeTemp: Double
 

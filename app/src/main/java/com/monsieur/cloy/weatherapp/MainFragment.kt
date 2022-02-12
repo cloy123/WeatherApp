@@ -70,33 +70,27 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(layoutInflater)
+
+        val widthOfNav = (Resources.getSystem().displayMetrics.widthPixels) * 0.8
+        binding.navView.layoutParams.width = widthOfNav.toInt()
+        binding.navView.requestLayout()
+        binding.drawerContent.getConstraintSet(R.id.end)?.setMargin(R.id.content, ConstraintSet.START, widthOfNav.toInt())
+
+        initFunc()
+
+        return binding.root
+    }
+
+    private fun initFunc() {
         navView = binding.navView.getHeaderView(0)
         tvChosenCity = navView.findViewById(R.id.tv_chosen_city)
         tvChosenCityTemp = navView.findViewById(R.id.tv_chosen_city_temp)
         imageChosenCityWeather = navView.findViewById(R.id.image_chosen_city_weather)
         recyclerCities = navView.findViewById(R.id.recycler_cities)
         buttonManagePlaces = navView.findViewById(R.id.button_manage_places)
-        val widthOfNav = (Resources.getSystem().displayMetrics.widthPixels) * 0.8
-        binding.navView.layoutParams.width = widthOfNav.toInt()
-        binding.navView.requestLayout()
-
-        binding.drawerContent.getConstraintSet(R.id.end)?.let {
-            startConstraintSet ->
-//            startConstraintSet.constrainWidth(R.id.content, widthOfNav.toInt())
-            startConstraintSet.setMargin(R.id.content, ConstraintSet.START, widthOfNav.toInt())
+        binding.toolbar.setNavigationOnClickListener {
+            binding.motionLayout.open()
         }
-
-//        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-//        binding.toolbar.setNavigationOnClickListener(
-//            NavigationIconClickListener(
-//                requireActivity(), binding.mainContent,
-//                AccelerateDecelerateInterpolator(),
-//                ContextCompat.getDrawable(requireContext(), R.drawable.menu),
-//                ContextCompat.getDrawable(requireContext(), R.drawable.close_menu)
-//            )
-//        )
-
-        return binding.root
     }
 
     fun initHourlyWeatherRecyclerAdapter(items: List<HourlyWeather>) {
@@ -112,14 +106,6 @@ class MainFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        binding.toolbar.setNavigationOnClickListener {
-            binding.motionLayout.open()
-        }
-        binding.navView.setNavigationItemSelectedListener {
-            //TODO
-            true
-        }
-
         val retrofit = Retrofit.Builder().baseUrl("https://api.openweathermap.org")
             .addConverterFactory(
                 GsonConverterFactory.create(
@@ -133,40 +119,7 @@ class MainFragment : Fragment() {
 
         openWeatherMapApi = retrofit.create(OpenWeatherMapApi::class.java)
 
-
-//
-//        binding.buttonCurrent.setOnClickListener {
-//            var callResult = openWeatherMapApi.getCurrentWeatherData("набережные челны", apiKey, units, lang)
-//
-//            callResult.enqueue(object : Callback<CurrentWeatherData?> {
-//                @SuppressLint("SetTextI18n")
-//                override fun onResponse(
-//                    call: Call<CurrentWeatherData?>?,
-//                    response: Response<CurrentWeatherData?>
-//                ) {
-//
-//                    if(response.isSuccessful){
-//                        try {
-//                            val gson = Gson()
-//                            val gsonStr = gson.toJson(response.body())
-//                            binding.info.setText(gsonStr + " " + "наб ч" ?:"нет ответа")
-//                        }
-//                        catch (e: Exception){
-//                            binding.info.setText(e.message + "|||||" + e.localizedMessage)
-//                        }
-//                    }else{
-//                        binding.info.setText("не Successful")
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<CurrentWeatherData?>, t: Throwable) {
-//                    Log.e(TAG, "onFailure")
-//                    Log.e(TAG, t.toString())
-//                }
-//            })
-//        }
-//
-        var callResult =
+        val callResult =
             openWeatherMapApi.getOneCallWeatherData("55.76", "52.02", apiKey, units, lang)
 
         callResult.enqueue(object : Callback<OneCallWeatherData?> {
@@ -184,7 +137,7 @@ class MainFragment : Fragment() {
                         initDailyWeatherRecyclerAdapter(weather.dailyWeather)
                         binding.tvCityName.text = weather.cityName
                         binding.tvCurrentTemp.text =
-                            weather.currentWeather!!.temp!!.toInt().toString() + "°"
+                            weather.currentWeather!!.temp.toInt().toString() + "°"
                         binding.tvFeelsLikeTemp.text =
                             "Ощущается как " + weather.currentWeather!!.feelsLikeTemp.toInt()
                                 .toString() + "°"
@@ -202,21 +155,15 @@ class MainFragment : Fragment() {
                             weather.currentWeather!!.windSpeed.toInt().toString() + "м/c"
                         binding.tvHumidity.text = weather.currentWeather!!.humidity.toString() + "%"
                         tvChosenCity.text = weather.cityName
-                        tvChosenCityTemp.text = weather.currentWeather!!.temp!!.toInt().toString() + "°"
+                        tvChosenCityTemp.text = weather.currentWeather!!.temp.toInt().toString() + "°"
                         imageChosenCityWeather.setImageResource(getWeatherIconId(weather.currentWeather!!.weatherIcon))
-
-                    } else {
-                        Toast.makeText(requireContext(), "error1", Toast.LENGTH_LONG).show()
                     }
-
-                } else {
-                    Toast.makeText(requireContext(), "error", Toast.LENGTH_LONG).show()
                 }
             }
-
             override fun onFailure(call: Call<OneCallWeatherData?>, t: Throwable) {
                 Log.e(TAG, "onFailure")
                 Log.e(TAG, t.toString())
+                Toast.makeText(requireContext(), "ошибка", Toast.LENGTH_LONG).show()
             }
         })
     }

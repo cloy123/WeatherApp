@@ -1,4 +1,4 @@
-package com.monsieur.cloy.weatherapp
+package com.monsieur.cloy.weatherapp.ui
 
 import android.content.Context
 import android.util.AttributeSet

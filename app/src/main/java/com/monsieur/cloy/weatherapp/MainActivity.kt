@@ -19,6 +19,6 @@ class MainActivity : AppCompatActivity(){
 
         APP_ACTIVITY = this
 
-        replaceFragment(MainFragment())
+        replaceFragment(MainFragment(), false)
     }
 }
