@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Entity(tableName = "cityWeather")
-class CityWeather(latitude: Double, longitude: Double, cityName: String, timezoneOffset: Int) {
+class CityWeather(latitude: Double, longitude: Double, cityName: String, region: String, timezoneOffset: Int) {
 
     @ColumnInfo(name = "id")
     @NonNull
@@ -34,6 +34,10 @@ class CityWeather(latitude: Double, longitude: Double, cityName: String, timezon
     @ColumnInfo(name = "cityName")
     @NonNull
     var cityName: String = cityName
+
+    @ColumnInfo(name = "region")
+    @NonNull
+    var region: String = region
 
     @ColumnInfo(name = "lastUpdateTime")
     var lastUpdateTimeUTC: LocalDateTime? = null

@@ -19,5 +19,4 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             cityWeatherRepository.insertCityWeather(cityWeather)
         }
     }
-
 }

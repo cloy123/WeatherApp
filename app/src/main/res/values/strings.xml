@@ -18,4 +18,7 @@
     <string name="humidity">Влажность</string>
     <string name="chosen_place">Избранное место</string>
     <string name="other_places">Другие места</string>
+    <string name="add">добавить</string>
+    <string name="change">Изменить</string>
+    <string name="search">Поиск</string>
 </resources>

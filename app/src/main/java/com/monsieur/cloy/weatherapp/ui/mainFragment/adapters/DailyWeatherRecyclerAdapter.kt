@@ -1,4 +1,4 @@
-package com.monsieur.cloy.weatherapp.ui
+package com.monsieur.cloy.weatherapp.ui.mainFragment.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -11,8 +11,6 @@ import com.monsieur.cloy.weatherapp.R
 import com.monsieur.cloy.weatherapp.model.DailyWeather
 import com.monsieur.cloy.weatherapp.utilits.getPopIconId
 import com.monsieur.cloy.weatherapp.utilits.getWeatherIconId
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class DailyWeatherRecyclerAdapter(val items: List<DailyWeather>): RecyclerView.Adapter<DailyWeatherRecyclerAdapter.ViewHolder>() {
 
