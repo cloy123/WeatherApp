@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Entity(tableName = "cityWeather")
-class CityWeather(latitude: Double, longitude: Double, cityName: String, region: String, timezoneOffset: Int) {
+class CityWeather(latitude: Double, longitude: Double, cityName: String, region: String) {
 
     @ColumnInfo(name = "id")
     @NonNull
@@ -29,7 +29,7 @@ class CityWeather(latitude: Double, longitude: Double, cityName: String, region:
 
     @ColumnInfo(name = "timezoneOffset")
     @NonNull
-    var timezoneOffset: Int = timezoneOffset
+    var timezoneOffset: Int = 0
 
     @ColumnInfo(name = "cityName")
     @NonNull

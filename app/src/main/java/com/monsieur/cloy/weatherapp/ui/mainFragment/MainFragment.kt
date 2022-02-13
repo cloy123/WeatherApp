@@ -149,7 +149,7 @@ class MainFragment : Fragment() {
             ) {
 
                 if (response.isSuccessful) {
-                    val weather = CityWeather(0.0, 0.0, "Елабуга", "Респ. Татарстан", 0)
+                    val weather = CityWeather(0.0, 0.0, "Елабуга", "Респ. Татарстан")
                     if (response.body() != null) {
                         weather.updateWeatherData(response.body()!!)
                         initHourlyWeatherRecyclerAdapter(weather.hourlyWeather)

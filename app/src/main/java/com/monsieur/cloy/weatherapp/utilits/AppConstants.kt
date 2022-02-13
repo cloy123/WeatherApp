@@ -8,3 +8,7 @@ lateinit var APP_ACTIVITY: MainActivity
 var toolbarMenu: Menu? = null
 
 val apiKey = "25f5011d0bceeb68843e0c674fcd463b"
+
+val units = "metric"
+
+val lang = "ru"

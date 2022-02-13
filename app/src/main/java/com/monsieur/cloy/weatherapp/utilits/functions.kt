@@ -3,7 +3,10 @@ package com.monsieur.cloy.weatherapp.utilits
 import android.widget.Toast
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
 import com.monsieur.cloy.weatherapp.R
+import com.monsieur.cloy.weatherapp.model.City
+import java.io.IOException
 import java.time.DayOfWeek
 
 fun replaceFragment(fragment: Fragment, addStack: Boolean = true) {
@@ -94,4 +97,15 @@ fun getDayOfWeek(dayOfWeek: DayOfWeek): String{
         DayOfWeek.SATURDAY -> APP_ACTIVITY.getString(R.string.saturday)
         DayOfWeek.SUNDAY -> APP_ACTIVITY.getString(R.string.sunday)
     }
+}
+
+fun getCitiesFromAsset(): ArrayList<City>{
+    val jsonString: String
+    try {
+        jsonString = APP_ACTIVITY.assets.open("cities/cities.json").bufferedReader().use{ it.readText() }
+    } catch (ioException: IOException) {
+        ioException.printStackTrace()
+        return ArrayList()
+    }
+    return Gson().fromJson(jsonString, Array<City>::class.java).toList() as ArrayList<City>
 }
