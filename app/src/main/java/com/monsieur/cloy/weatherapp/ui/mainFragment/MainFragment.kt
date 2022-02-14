@@ -22,6 +22,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.monsieur.cloy.weatherapp.R
@@ -35,6 +37,8 @@ import com.monsieur.cloy.weatherapp.ui.mainFragment.adapters.HourlyWeatherRecycl
 import com.monsieur.cloy.weatherapp.ui.placeManagementFragment.PlaceManagementFragment
 import com.monsieur.cloy.weatherapp.utilits.getWeatherIconId
 import com.monsieur.cloy.weatherapp.utilits.replaceFragment
+import com.monsieur.cloy.weatherapp.utilits.showToast
+import com.monsieur.cloy.weatherapp.viewModels.MainViewModel
 import retrofit2.Response
 import java.time.format.DateTimeFormatter
 
@@ -56,6 +60,8 @@ class MainFragment : Fragment() {
     private lateinit var buttonManagePlaces: MaterialButton
 
     private lateinit var openWeatherMapApi: OpenWeatherMapApi
+
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +117,7 @@ class MainFragment : Fragment() {
             //TODO обновление
         }
     }
+
 
     fun initHourlyWeatherRecyclerAdapter(items: List<HourlyWeather>) {
         val adapter = HourlyWeatherRecyclerAdapter(items)
@@ -184,6 +191,10 @@ class MainFragment : Fragment() {
                 Log.e(TAG, t.toString())
                 Toast.makeText(requireContext(), "ошибка", Toast.LENGTH_LONG).show()
             }
+        })
+
+        viewModel.allCityWeathers.observe(viewLifecycleOwner, Observer {
+            showToast("тут")
         })
     }
 }

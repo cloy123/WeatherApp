@@ -8,14 +8,14 @@ import com.monsieur.cloy.weatherapp.di.AppModule
 import com.monsieur.cloy.weatherapp.di.DaggerAppComponent
 import com.monsieur.cloy.weatherapp.di.RoomModule
 
-class App: Application() {
+class App : Application() {
 
     lateinit var appComponent: AppComponent
-    private set
-
-    companion object{
-        lateinit var instance: App
         private set
+
+    companion object {
+        lateinit var instance: App
+            private set
     }
 
     override fun onCreate() {

@@ -1,10 +1,8 @@
 package com.monsieur.cloy.weatherapp.viewModels
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentValues
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -14,11 +12,10 @@ import com.monsieur.cloy.weatherapp.api.OpenWeatherMapApi
 import com.monsieur.cloy.weatherapp.appComponent
 import com.monsieur.cloy.weatherapp.model.City
 import com.monsieur.cloy.weatherapp.model.cityWeather.CityWeather
-import com.monsieur.cloy.weatherapp.utilits.apiKey
-import com.monsieur.cloy.weatherapp.utilits.getWeatherIconId
-import com.monsieur.cloy.weatherapp.utilits.lang
-import com.monsieur.cloy.weatherapp.utilits.units
+import com.monsieur.cloy.weatherapp.utilits.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,7 +23,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Modifier
-import java.time.format.DateTimeFormatter
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -54,20 +50,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     if (response.body() != null) {
                         cityWeather.updateWeatherData(response.body()!!)
                         insertCityWeather(cityWeather)
+                    }else{
+                        showToast("response.body() = null")
                     }
                 }
             }
             override fun onFailure(call: Call<OneCallWeatherData?>, t: Throwable) {
                 Log.e(ContentValues.TAG, "onFailure")
                 Log.e(ContentValues.TAG, t.toString())
+                showToast("ошибка")
             }
         }
         requestWeatherData(cityWeather.latitude, cityWeather.longitude, callback)
     }
 
+
     private fun insertCityWeather(cityWeather: CityWeather) {
+        showToast("сохраняю")
+
         viewModelScope.launch(Dispatchers.IO) {
             cityWeatherRepository.insertCityWeather(cityWeather)
+            viewModelScope.launch(Dispatchers.Main) {
+                showToast("сохранил")
+            }
         }
     }
 

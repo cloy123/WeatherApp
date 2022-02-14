@@ -9,15 +9,13 @@ class CityWeatherRepository @Inject constructor(val cityWeatherDao: CityWeatherD
 
     fun getAllCityWeather(): LiveData<List<CityWeather>> = cityWeatherDao.getAllCityWeather()
 
-    suspend fun insertCityWeather(cityWeather: CityWeather){
+    suspend fun insertCityWeather(cityWeather: CityWeather) =
         cityWeatherDao.insertCityWeather(cityWeather)
-    }
 
-    suspend fun updateCityWeather(cityWeather: CityWeather){
+
+    suspend fun updateCityWeather(cityWeather: CityWeather) =
         cityWeatherDao.updateCityWeather(cityWeather)
-    }
 
-    suspend fun deleteCityWeather(cityWeather: CityWeather){
+    suspend fun deleteCityWeather(cityWeather: CityWeather) =
         cityWeatherDao.deleteCityWeather(cityWeather)
-    }
 }
