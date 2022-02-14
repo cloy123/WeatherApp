@@ -50,15 +50,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     if (response.body() != null) {
                         cityWeather.updateWeatherData(response.body()!!)
                         insertCityWeather(cityWeather)
-                    }else{
-                        showToast("response.body() = null")
                     }
                 }
             }
             override fun onFailure(call: Call<OneCallWeatherData?>, t: Throwable) {
                 Log.e(ContentValues.TAG, "onFailure")
                 Log.e(ContentValues.TAG, t.toString())
-                showToast("ошибка")
             }
         }
         requestWeatherData(cityWeather.latitude, cityWeather.longitude, callback)
@@ -66,12 +63,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     private fun insertCityWeather(cityWeather: CityWeather) {
-        showToast("сохраняю")
-
         viewModelScope.launch(Dispatchers.IO) {
             cityWeatherRepository.insertCityWeather(cityWeather)
             viewModelScope.launch(Dispatchers.Main) {
-                showToast("сохранил")
             }
         }
     }
