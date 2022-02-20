@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context=".ui.mainFragment.MainFragment">
+    tools:context=".presentation.ui.mainFragment.MainFragment">
 
-    <com.monsieur.cloy.weatherapp.ui.mainFragment.DrawerContent
+    <com.monsieur.cloy.weatherapp.presentation.ui.mainFragment.DrawerContent
         android:id="@+id/drawerContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -319,7 +319,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </com.monsieur.cloy.weatherapp.ui.mainFragment.DrawerContent>
+    </com.monsieur.cloy.weatherapp.presentation.ui.mainFragment.DrawerContent>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

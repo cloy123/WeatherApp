@@ -10,7 +10,7 @@
     android:paddingTop="?attr/actionBarSize">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/button_chosen_city"
+        android:id="@+id/button_favorite_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
@@ -35,14 +35,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/chosen_city_card"
+        android:id="@+id/favorite_city_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp">
 
         <TextView
-            android:id="@+id/tv_chosen_city"
+            android:id="@+id/tv_favorite_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
@@ -52,7 +52,7 @@
             tools:text="Город" />
 
         <TextView
-            android:id="@+id/tv_chosen_city_temp"
+            android:id="@+id/tv_favorite_city_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,12 +61,12 @@
             tools:text="-11" />
 
         <ImageView
-            android:id="@+id/image_chosen_city_weather"
+            android:id="@+id/image_favorite_city_weather"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_chosen_city_temp"
+            app:layout_constraintEnd_toStartOf="@id/tv_favorite_city_temp"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/icon04d" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,37 +1,22 @@
 package com.monsieur.cloy.weatherapp
 
 import android.app.Application
-import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
-import com.monsieur.cloy.weatherapp.di.AppComponent
-import com.monsieur.cloy.weatherapp.di.AppModule
-import com.monsieur.cloy.weatherapp.di.DaggerAppComponent
-import com.monsieur.cloy.weatherapp.di.RoomModule
+import com.monsieur.cloy.weatherapp.di.appModule
+import com.monsieur.cloy.weatherapp.di.dataModule
+import com.monsieur.cloy.weatherapp.di.domainModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
+
 
 class App : Application() {
-
-    lateinit var appComponent: AppComponent
-        private set
-
-    companion object {
-        lateinit var instance: App
-            private set
-    }
-
     override fun onCreate() {
         super.onCreate()
-
-        instance = this
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .roomModule(RoomModule(this))
-            .build()
+        startKoin {
+            androidLogger(Level.ERROR)
+            modules(listOf(appModule, domainModule, dataModule))
+            androidContext(this@App)
+        }
     }
 }
-
-val Context.appComponent: AppComponent
-    get() = when (this) {
-        is App -> appComponent
-        else -> applicationContext.appComponent
-    }

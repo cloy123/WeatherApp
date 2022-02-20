@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.placeManagementFragment.PlaceManagementFragment">
+    tools:context=".presentation.ui.placeManagementFragment.PlaceManagementFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -42,76 +42,86 @@
                 android:textSize="12sp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/favorite_city_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="0dp"
-                android:id="@+id/chosen_city_card">
+                app:cardElevation="0dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="20dp"
-                        android:layout_marginStart="20dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:id="@+id/tv_chosen_city_name"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="20dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toTopOf="@id/button_delete_favorite_city"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/tv_favorite_city_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="20sp"
+                                tools:text="Елабуга" />
+
+                            <TextView
+                                android:id="@+id/tv_favorite_city_region"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                tools:text="Татарстан, Россия" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_favorite_city_current_temp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
                             android:textSize="20sp"
-                            tools:text="Елабуга" />
+                            app:layout_constraintBottom_toTopOf="@id/tv_favorite_city_day_night_temp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="-3°" />
+
+                        <ImageView
+                            android:id="@+id/image_favorite_city_weather"
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_favorite_city_current_temp"
+                            app:layout_constraintEnd_toStartOf="@id/tv_favorite_city_current_temp"
+                            app:layout_constraintTop_toTopOf="@id/tv_favorite_city_current_temp"
+                            tools:src="@drawable/icon09d" />
 
                         <TextView
-                            android:id="@+id/tv_chosen_city_region"
+                            android:id="@+id/tv_favorite_city_day_night_temp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
                             android:textSize="12sp"
-                            tools:text="Татарстан, Россия" />
+                            app:layout_constraintBottom_toTopOf="@id/button_delete_favorite_city"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_favorite_city_current_temp"
+                            tools:text="-1°/-3°" />
 
-                    </LinearLayout>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_delete_favorite_city"
+                            android:text="Удалить"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <TextView
-                        android:id="@+id/tv_chosen_city_current_temp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:textSize="20sp"
-                        app:layout_constraintBottom_toTopOf="@id/tv_chosen_city_day_night_temp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="-3°" />
-
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="0dp"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_chosen_city_current_temp"
-                        app:layout_constraintEnd_toStartOf="@id/tv_chosen_city_current_temp"
-                        app:layout_constraintTop_toTopOf="@id/tv_chosen_city_current_temp"
-                        tools:src="@drawable/icon09d" />
-
-                    <TextView
-                        android:id="@+id/tv_chosen_city_day_night_temp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_chosen_city_current_temp"
-                        tools:text="-1°/-3°" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
             <TextView

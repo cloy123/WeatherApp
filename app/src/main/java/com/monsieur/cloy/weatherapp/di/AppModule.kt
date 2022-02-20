@@ -1,15 +1,19 @@
 package com.monsieur.cloy.weatherapp.di
 
-import android.app.Application
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import com.monsieur.cloy.weatherapp.presentation.viewModels.MainViewModel
+import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
-@Module
-class AppModule(val application: Application) {
-    @Provides
-    @Singleton
-    fun providesApplication(): Application{
-        return application
+val appModule = module {
+    viewModel<MainViewModel> {
+        MainViewModel(
+            androidApplication(),
+        addNewCityWeatherUseCase = get(),
+        deleteCityWeatherByIdUseCase = get(),
+        getAllCityWeatherUseCase = get(),
+        getFavoriteCityIdUseCase = get(),
+        saveFavoriteCityIdUseCase = get(),
+        updateAllCityWeatherDataUseCase = get())
     }
 }
