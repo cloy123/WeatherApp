@@ -1,11 +1,18 @@
 package com.monsieur.cloy.weatherapp.presentation.viewModels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.monsieur.cloy.domain.models.AddNewCityParam
+import com.monsieur.cloy.domain.models.CityWeatherInfo
 import com.monsieur.cloy.weatherapp.presentation.model.City
 import com.monsieur.cloy.domain.usecase.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -18,27 +25,80 @@ class MainViewModel(
     private val updateAllCityWeatherDataUseCase: UpdateAllCityWeatherDataUseCase
 ) : AndroidViewModel(application) {
 
-//    var currentCityId: Int = -1
-//        private set
-//
-//    var favoriteCityId: Int = -1
-//        private set
-//
-//    init {
-//        favoriteCityId = loadFavoriteCityId()
-//        currentCityId = -1
-//    }
+    var currentCityId: Int = -1
+    var favoriteCityId: Int = -1
+
 
     val allCityWeatherInfo = getAllCityWeatherUseCase.execute()
 
-//    fun setCurrentCity(id: Int){
-//        currentCityId = id
-//    }
+    override fun onCleared() {
+        super.onCleared()
+    }
 
-//    fun setFavoriteCity(id: Int){
-//        //favoriteCityId = id
-//        saveFavoriteCity(id)
-//    }
+    val favoriteCity: MutableLiveData<CityWeatherInfo?> = MutableLiveData()
+    val currentCity: MutableLiveData<CityWeatherInfo> = MutableLiveData()
+
+    val otherCities: MutableLiveData<List<CityWeatherInfo>> = MutableLiveData()
+
+    var cityWeatherInfo: List<CityWeatherInfo> = ArrayList()
+
+    init {
+        viewModelScope.launch(Dispatchers.Default) {
+            favoriteCityId = loadFavoriteCityId()
+            currentCityId = favoriteCityId
+
+            allCityWeatherInfo.collect {
+                if(it.isEmpty()){
+                    return@collect
+                }
+                cityWeatherInfo = it
+                val favCity = it.find { it.id ==  favoriteCityId}
+                val curCity = it.find { it.id == currentCityId }
+                if(favCity != null){
+                    favoriteCity.postValue(favCity)
+                }else{
+                    favoriteCity.postValue(null)
+                }
+                if(curCity != null){
+                    currentCity.postValue(curCity!!)
+                }else{
+                    if(favCity != null){
+                        currentCityId = favoriteCityId
+                        currentCity.postValue(favCity!!)
+                    }else{
+                        currentCityId = it[0].id
+                        currentCity.postValue(it[0])
+                    }
+                }
+
+                if(favCity != null){
+                    otherCities.postValue(cityWeatherInfo.filter { it.id != favoriteCityId })
+                }else{
+                    otherCities.postValue(it)
+                }
+            }
+
+        }
+
+    }
+
+    fun setFavoriteCity(id: Int){
+        val favCity = cityWeatherInfo.find { it.id == id }
+        if(favCity != null){
+            favoriteCityId = id
+            saveFavoriteCity(id)
+            favoriteCity.postValue(favCity!!)
+            otherCities.postValue(cityWeatherInfo.filter { it.id != favoriteCityId })
+        }
+    }
+
+    fun setCurrentCity(id: Int){
+        val curCity = cityWeatherInfo.find { it.id == id }
+        if(curCity != null){
+            currentCityId = id
+            currentCity.postValue(curCity!!)
+        }
+    }
 
     fun createCity(city: City) {
         viewModelScope.launch {

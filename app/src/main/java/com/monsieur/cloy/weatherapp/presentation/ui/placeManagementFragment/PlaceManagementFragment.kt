@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.coroutineScope
 import com.monsieur.cloy.domain.models.CityWeatherInfo
 import com.monsieur.cloy.weatherapp.R
@@ -16,6 +17,7 @@ import com.monsieur.cloy.weatherapp.presentation.utilits.*
 import com.monsieur.cloy.weatherapp.presentation.viewModels.MainViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaceManagementFragment : Fragment() {
@@ -24,9 +26,7 @@ class PlaceManagementFragment : Fragment() {
 
     private lateinit var recyclerAdapter: CitiesRecyclerAdapter
 
-    private var cityWeatherInfo: List<CityWeatherInfo> = ArrayList()
-
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by sharedViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,20 +46,18 @@ class PlaceManagementFragment : Fragment() {
         recyclerAdapter = CitiesRecyclerAdapter()
         binding.recyclerOtherCities.adapter = recyclerAdapter
         recyclerAdapter.setOnClickListener {
-            currentCityId = it.id//viewModel.setCurrentCity(it.id)
+            viewModel.setCurrentCity(it.id)
             backButton()
         }
         recyclerAdapter.setOnDeleteCityListener {
-            favoriteCityId = -1
             viewModel.deleteCity(it.id)
         }
         recyclerAdapter.setOnMakeFavoriteCityListener {
-            favoriteCityId = it.id
-            viewModel.saveFavoriteCity(it.id)
-            setData()
+            viewModel.setFavoriteCity(it.id)
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initFunc(){
         initRecyclerAdapter()
         binding.toolbar.setNavigationOnClickListener {
@@ -72,44 +70,30 @@ class PlaceManagementFragment : Fragment() {
             true
         }
         binding.buttonDeleteFavoriteCity.setOnClickListener {
-            viewModel.deleteCity(favoriteCityId)//(viewModel.favoriteCityId)
-            favoriteCityId = -1
+            viewModel.deleteCity(viewModel.favoriteCityId)//(viewModel.favoriteCityId)
             viewModel.saveFavoriteCity(-1)
         }
         binding.favoriteCityCard.setOnClickListener {
-            currentCityId = favoriteCityId
-            //viewModel.setCurrentCity(viewModel.favoriteCityId)
+            viewModel.setCurrentCity(viewModel.favoriteCityId)
             backButton()
         }
-    }
 
-    @SuppressLint("SetTextI18n")
-    fun setData(){
-        //viewModelm.favoriteCityId
-        val favoriteCity = cityWeatherInfo.find { it.id == favoriteCityId }
-        val otherCities: List<CityWeatherInfo>
-        if(favoriteCity != null){
-            binding.favoriteCityCard.visibility = View.VISIBLE
-            binding.tvFavoriteCityName.text = favoriteCity.cityName
-            binding.tvFavoriteCityRegion.text = favoriteCity.region
-            binding.tvFavoriteCityCurrentTemp.text = favoriteCity.currentWeather!!.temp.toInt().toString() + "°"
-            binding.imageFavoriteCityWeather.setImageResource(getWeatherIconId(favoriteCity.currentWeather!!.weatherIcon))
-            binding.tvFavoriteCityDayNightTemp.text = favoriteCity.dailyWeather[0].dayTemp.toInt().toString() + "°/" + favoriteCity.dailyWeather[0].nightTemp.toInt().toString() + "°"
-            otherCities = cityWeatherInfo.filter { it.id != favoriteCityId }
-        }else{
-            binding.favoriteCityCard.visibility = View.GONE
-            otherCities = cityWeatherInfo
-        }
-        recyclerAdapter.setItems(otherCities)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        lifecycle.coroutineScope.launch{
-            viewModel.allCityWeatherInfo.collect {
-                cityWeatherInfo = it
-                setData()
+        viewModel.favoriteCity.observe(viewLifecycleOwner, Observer {
+            if(it != null){
+                binding.favoriteCityCard.visibility = View.VISIBLE
+                binding.tvFavoriteCityName.text = it.cityName
+                binding.tvFavoriteCityRegion.text = it.region
+                binding.tvFavoriteCityCurrentTemp.text = it.currentWeather!!.temp.toInt().toString() + "°"
+                binding.imageFavoriteCityWeather.setImageResource(getWeatherIconId(it.currentWeather!!.weatherIcon))
+                binding.tvFavoriteCityDayNightTemp.text = it.dailyWeather[0].dayTemp.toInt().toString() + "°/" + it.dailyWeather[0].nightTemp.toInt().toString() + "°"
+            }else{
+                binding.favoriteCityCard.visibility = View.GONE
             }
-        }
+        })
+
+
+        viewModel.otherCities.observe(viewLifecycleOwner, Observer {
+            recyclerAdapter.setItems(it)
+        })
     }
 }

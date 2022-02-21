@@ -13,5 +13,5 @@ val units = "metric"
 
 val lang = "ru"
 
-var favoriteCityId = -1
-var currentCityId = -1
+//var favoriteCityId = -1
+//var currentCityId = -1

@@ -5,8 +5,6 @@ import android.os.Bundle
 import com.monsieur.cloy.weatherapp.databinding.ActivityMainBinding
 import com.monsieur.cloy.weatherapp.presentation.ui.mainFragment.MainFragment
 import com.monsieur.cloy.weatherapp.presentation.utilits.APP_ACTIVITY
-import com.monsieur.cloy.weatherapp.presentation.utilits.currentCityId
-import com.monsieur.cloy.weatherapp.presentation.utilits.favoriteCityId
 import com.monsieur.cloy.weatherapp.presentation.utilits.replaceFragment
 import com.monsieur.cloy.weatherapp.presentation.viewModels.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,8 +21,8 @@ class MainActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         APP_ACTIVITY = this
-        favoriteCityId = viewModel.loadFavoriteCityId()
-        currentCityId = favoriteCityId
+//        favoriteCityId = viewModel.loadFavoriteCityId()
+//        currentCityId = favoriteCityId
 
         replaceFragment(MainFragment(), false)
     }

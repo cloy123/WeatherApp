@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.lifecycle.Observer
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -25,6 +26,7 @@ import com.monsieur.cloy.weatherapp.presentation.utilits.*
 import com.monsieur.cloy.weatherapp.presentation.viewModels.MainViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.format.DateTimeFormatter
 
@@ -33,7 +35,7 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
 
-    private var cityWeatherInfo: List<CityWeatherInfo> = ArrayList()
+    //private var cityWeatherInfo: List<CityWeatherInfo> = ArrayList()
 
     private lateinit var buttonFavoriteCity: ConstraintLayout
     private lateinit var favoriteCityCard: ConstraintLayout
@@ -48,7 +50,7 @@ class MainFragment : Fragment() {
     private lateinit var dailyWeatherRecyclerAdapter: DailyWeatherRecyclerAdapter
     private lateinit var citiesNavViewRecyclerAdapter: CitiesNavViewRecyclerAdapter
 
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by sharedViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +84,7 @@ class MainFragment : Fragment() {
         buttonManagePlaces = navView.findViewById(R.id.button_manage_places)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initFunc() {
         initNavView()
         initDailyWeatherRecyclerAdapter()
@@ -90,20 +93,16 @@ class MainFragment : Fragment() {
             binding.motionLayout.open()
         }
         buttonFavoriteCity.setOnClickListener {
-            val favoriteCity = cityWeatherInfo.find { it.id == favoriteCityId }
-            if(favoriteCity != null){
-                currentCityId = favoriteCityId
-                setCurrentCityData(favoriteCity)
+            if(viewModel.favoriteCity.value != null){
+                viewModel.setCurrentCity(viewModel.favoriteCityId)
                 binding.motionLayout.close()
             }else{
                 replaceFragment(PlaceManagementFragment())
             }
         }
         favoriteCityCard.setOnClickListener {
-            val favoriteCity = cityWeatherInfo.find { it.id == favoriteCityId }
-            if(favoriteCity != null){
-                currentCityId = favoriteCityId
-                setCurrentCityData(favoriteCity)
+            if(viewModel.favoriteCity.value != null){
+                viewModel.setCurrentCity(viewModel.favoriteCityId)
                 binding.motionLayout.close()
             }else{
                 replaceFragment(PlaceManagementFragment())
@@ -119,15 +118,25 @@ class MainFragment : Fragment() {
             viewModel.updateWeatherData()
         }
 
-
-        lifecycle.coroutineScope.launch {
-            viewModel.allCityWeatherInfo.collect {
-                cityWeatherInfo = it
-                setWeatherData()
-                binding.swipeRefreshLayout.isRefreshing = false
+        viewModel.favoriteCity.observe(viewLifecycleOwner, Observer {
+            if(it != null){
+                favoriteCityCard.visibility = View.VISIBLE
+                tvFavoriteCity.text = it.cityName
+                tvFavoriteCityTemp.text = it.currentWeather!!.temp.toInt().toString() + "°"
+                imageFavoriteCityWeather.setImageResource(getWeatherIconId(it.currentWeather!!.weatherIcon))
+            }else{
+                favoriteCityCard.visibility = View.GONE
             }
-        }
+        })
 
+        viewModel.currentCity.observe(viewLifecycleOwner, Observer {
+            setCurrentCityData(it)
+            binding.motionLayout.close()
+        })
+
+        viewModel.otherCities.observe(viewLifecycleOwner, Observer {
+            citiesNavViewRecyclerAdapter.setItems(it)
+        })
     }
 
 
@@ -145,12 +154,7 @@ class MainFragment : Fragment() {
         citiesNavViewRecyclerAdapter = CitiesNavViewRecyclerAdapter()
         recyclerCities.adapter = citiesNavViewRecyclerAdapter
         citiesNavViewRecyclerAdapter.setOnClickListener { city ->
-            val currentCity = cityWeatherInfo.find { city.id == it.id }
-            if(currentCity != null){
-                currentCityId = city.id
-                setCurrentCityData(currentCity)
-                binding.motionLayout.close()
-            }
+            viewModel.setCurrentCity(city.id)
         }
     }
 
@@ -173,44 +177,6 @@ class MainFragment : Fragment() {
         binding.tvWindSpeed.text =
             cityWeatherInfo.currentWeather!!.windSpeed.toInt().toString() + "м/c"
         binding.tvHumidity.text = cityWeatherInfo.currentWeather!!.humidity.toString() + "%"
-    }
-
-    @SuppressLint("SetTextI18n")
-    fun setWeatherData(){
-        if(cityWeatherInfo.isNotEmpty()) {
-            //viewModel.currentCityId
-            //viewModel.favoriteCityId
-            var currentCity = cityWeatherInfo.find { it.id == currentCityId }
-            val favoriteCity = cityWeatherInfo.find { it.id == favoriteCityId }
-            if(currentCity != null){
-                setCurrentCityData(currentCity)
-            }else if(favoriteCity != null){
-                currentCityId = favoriteCityId
-                //viewModel.setCurrentCity(favoriteCityId)
-                currentCityId = favoriteCityId
-                setCurrentCityData(favoriteCity)
-            }else{
-                currentCity = cityWeatherInfo[0]
-                currentCityId = currentCity.id
-                //viewModel.setCurrentCity(currentCityId)
-                setCurrentCityData(currentCity)
-            }
-
-            val otherCities: List<CityWeatherInfo>
-            if(favoriteCity != null){
-                favoriteCityCard.visibility = View.VISIBLE
-                tvFavoriteCity.text = favoriteCity.cityName
-                tvFavoriteCityTemp.text = favoriteCity.currentWeather!!.temp.toInt().toString() + "°"
-                imageFavoriteCityWeather.setImageResource(getWeatherIconId(favoriteCity.currentWeather!!.weatherIcon))
-                otherCities = cityWeatherInfo.filter { it.id != favoriteCityId }
-            }else{
-                favoriteCityCard.visibility = View.GONE
-                otherCities = cityWeatherInfo
-            }
-            citiesNavViewRecyclerAdapter.setItems(otherCities)
-        }else{
-            //replaceFragment(AddCityFragment())
-        }
     }
 
     override fun onResume() {
