@@ -50,6 +50,7 @@ class PlaceManagementFragment : Fragment() {
             backButton()
         }
         recyclerAdapter.setOnDeleteCityListener {
+            favoriteCityId = -1
             viewModel.deleteCity(it.id)
         }
         recyclerAdapter.setOnMakeFavoriteCityListener {
@@ -88,6 +89,7 @@ class PlaceManagementFragment : Fragment() {
         val favoriteCity = cityWeatherInfo.find { it.id == favoriteCityId }
         val otherCities: List<CityWeatherInfo>
         if(favoriteCity != null){
+            binding.favoriteCityCard.visibility = View.VISIBLE
             binding.tvFavoriteCityName.text = favoriteCity.cityName
             binding.tvFavoriteCityRegion.text = favoriteCity.region
             binding.tvFavoriteCityCurrentTemp.text = favoriteCity.currentWeather!!.temp.toInt().toString() + "°"
@@ -95,6 +97,7 @@ class PlaceManagementFragment : Fragment() {
             binding.tvFavoriteCityDayNightTemp.text = favoriteCity.dailyWeather[0].dayTemp.toInt().toString() + "°/" + favoriteCity.dailyWeather[0].nightTemp.toInt().toString() + "°"
             otherCities = cityWeatherInfo.filter { it.id != favoriteCityId }
         }else{
+            binding.favoriteCityCard.visibility = View.GONE
             otherCities = cityWeatherInfo
         }
         recyclerAdapter.setItems(otherCities)
