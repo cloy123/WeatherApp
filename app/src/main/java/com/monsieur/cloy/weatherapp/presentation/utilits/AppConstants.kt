@@ -12,6 +12,3 @@ val apiKey = "25f5011d0bceeb68843e0c674fcd463b"
 val units = "metric"
 
 val lang = "ru"
-
-//var favoriteCityId = -1
-//var currentCityId = -1

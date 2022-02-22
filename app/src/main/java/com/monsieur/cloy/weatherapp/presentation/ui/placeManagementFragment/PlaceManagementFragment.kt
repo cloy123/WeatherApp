@@ -7,18 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.coroutineScope
-import com.monsieur.cloy.domain.models.CityWeatherInfo
 import com.monsieur.cloy.weatherapp.R
 import com.monsieur.cloy.weatherapp.databinding.FragmentPlaceManagementBinding
 import com.monsieur.cloy.weatherapp.presentation.ui.addCityFragment.AddCityFragment
 import com.monsieur.cloy.weatherapp.presentation.ui.placeManagementFragment.adapters.CitiesRecyclerAdapter
 import com.monsieur.cloy.weatherapp.presentation.utilits.*
 import com.monsieur.cloy.weatherapp.presentation.viewModels.MainViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaceManagementFragment : Fragment() {
 
@@ -83,9 +78,21 @@ class PlaceManagementFragment : Fragment() {
                 binding.favoriteCityCard.visibility = View.VISIBLE
                 binding.tvFavoriteCityName.text = it.cityName
                 binding.tvFavoriteCityRegion.text = it.region
-                binding.tvFavoriteCityCurrentTemp.text = it.currentWeather!!.temp.toInt().toString() + "°"
-                binding.imageFavoriteCityWeather.setImageResource(getWeatherIconId(it.currentWeather!!.weatherIcon))
-                binding.tvFavoriteCityDayNightTemp.text = it.dailyWeather[0].dayTemp.toInt().toString() + "°/" + it.dailyWeather[0].nightTemp.toInt().toString() + "°"
+                if(it.currentWeather != null) {
+                    binding.tvFavoriteCityCurrentTemp.text =
+                        it.currentWeather!!.temp.toInt().toString() + "°"
+                    binding.imageFavoriteCityWeather.setImageResource(getWeatherIconId(it.currentWeather!!.weatherIcon))
+                    binding.imageFavoriteCityWeather.visibility = View.VISIBLE
+                }else{
+                    binding.tvFavoriteCityCurrentTemp.text = ""
+                    binding.imageFavoriteCityWeather.visibility = View.GONE
+                }
+                if(it.dailyWeather.isNotEmpty()) {
+                    binding.tvFavoriteCityDayNightTemp.text = it.dailyWeather[0].dayTemp.toInt()
+                        .toString() + "°/" + it.dailyWeather[0].nightTemp.toInt().toString() + "°"
+                }else{
+                    binding.tvFavoriteCityDayNightTemp.text = ""
+                }
             }else{
                 binding.favoriteCityCard.visibility = View.GONE
             }

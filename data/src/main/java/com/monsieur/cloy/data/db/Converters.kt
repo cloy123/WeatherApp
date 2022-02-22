@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 class Converters {
     @TypeConverter
-    fun currentWeatherToJson(value: CurrentWeather):String = Gson().toJson(value)
+    fun currentWeatherToJson(value: CurrentWeather?):String = Gson().toJson(value)
 
     @TypeConverter
     fun jsonToCurrentWeather(value: String): CurrentWeather?{
@@ -45,12 +45,18 @@ class Converters {
     }
 
     @TypeConverter
-    fun localDateTimeToJson(value: LocalDateTime): String{
+    fun localDateTimeToJson(value: LocalDateTime?): String{
+        if(value == null){
+            return "null"
+        }
         return value.toString()
     }
 
     @TypeConverter
     fun jsonToLocalDateTime(value: String): LocalDateTime?{
+        if(value == "null"){
+            return null
+        }
         return try {
             LocalDateTime.parse(value)
         }catch (e: Exception){

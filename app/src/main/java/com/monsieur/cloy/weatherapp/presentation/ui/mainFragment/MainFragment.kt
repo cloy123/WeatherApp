@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.Observer
-import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.monsieur.cloy.domain.models.CityWeatherInfo
@@ -24,18 +23,13 @@ import com.monsieur.cloy.weatherapp.presentation.ui.mainFragment.adapters.Hourly
 import com.monsieur.cloy.weatherapp.presentation.ui.placeManagementFragment.PlaceManagementFragment
 import com.monsieur.cloy.weatherapp.presentation.utilits.*
 import com.monsieur.cloy.weatherapp.presentation.viewModels.MainViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.format.DateTimeFormatter
 
 
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
-
-    //private var cityWeatherInfo: List<CityWeatherInfo> = ArrayList()
 
     private lateinit var buttonFavoriteCity: ConstraintLayout
     private lateinit var favoriteCityCard: ConstraintLayout
@@ -122,8 +116,14 @@ class MainFragment : Fragment() {
             if(it != null){
                 favoriteCityCard.visibility = View.VISIBLE
                 tvFavoriteCity.text = it.cityName
-                tvFavoriteCityTemp.text = it.currentWeather!!.temp.toInt().toString() + "°"
-                imageFavoriteCityWeather.setImageResource(getWeatherIconId(it.currentWeather!!.weatherIcon))
+                if(it.currentWeather != null){
+                    tvFavoriteCityTemp.text = it.currentWeather!!.temp.toInt().toString() + "°"
+                    imageFavoriteCityWeather.setImageResource(getWeatherIconId(it.currentWeather!!.weatherIcon))
+                    imageFavoriteCityWeather.visibility = View.VISIBLE
+                }else{
+                    tvFavoriteCityTemp.text = ""
+                    imageFavoriteCityWeather.visibility = View.GONE
+                }
             }else{
                 favoriteCityCard.visibility = View.GONE
             }
@@ -136,6 +136,7 @@ class MainFragment : Fragment() {
 
         viewModel.otherCities.observe(viewLifecycleOwner, Observer {
             citiesNavViewRecyclerAdapter.setItems(it)
+            binding.swipeRefreshLayout.isRefreshing = false
         })
     }
 
@@ -160,23 +161,39 @@ class MainFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     fun setCurrentCityData(cityWeatherInfo: CityWeatherInfo){
-        //TODO проверки
+        //TODO переделать чуть-чуть
         dailyWeatherRecyclerAdapter.setItems(cityWeatherInfo.dailyWeather)
         hourlyWeatherRecyclerAdapter.setItems(cityWeatherInfo.hourlyWeather)
         binding.tvCityName.text = cityWeatherInfo.cityName
-        binding.tvCurrentTemp.text = cityWeatherInfo.currentWeather!!.temp.toInt().toString() + "°"
-        binding.tvFeelsLikeTemp.text = "Ощущается как " + cityWeatherInfo.currentWeather!!.feelsLikeTemp.toInt().toString() + "°"
-        binding.tvDayNightTemp.text = cityWeatherInfo.dailyWeather[0].dayTemp.toInt().toString() + "°/" + cityWeatherInfo.dailyWeather[0].nightTemp.toInt().toString() + "°"
-        binding.imageCurrentWeatherIcon.setImageResource(getWeatherIconId(cityWeatherInfo.currentWeather!!.weatherIcon))
+        if(cityWeatherInfo.currentWeather != null){
+            binding.tvCurrentTemp.text = cityWeatherInfo.currentWeather!!.temp.toInt().toString() + "°"
+            binding.imageCurrentWeatherIcon.setImageResource(getWeatherIconId(cityWeatherInfo.currentWeather!!.weatherIcon))
+            binding.imageCurrentWeatherIcon.visibility = View.VISIBLE
+            binding.tvFeelsLikeTemp.text = "Ощущается как " + cityWeatherInfo.currentWeather!!.feelsLikeTemp.toInt().toString() + "°"
+            binding.tvSunrise.text =
+                cityWeatherInfo.currentWeather!!.sunrise.format(DateTimeFormatter.ofPattern("HH:mm"))
+            binding.tvSunset.text =
+                cityWeatherInfo.currentWeather!!.sunset.format(DateTimeFormatter.ofPattern("HH:mm"))
+            binding.tvUvi.text = cityWeatherInfo.currentWeather!!.uvi.toInt().toString()
+            binding.tvWindSpeed.text =
+                cityWeatherInfo.currentWeather!!.windSpeed.toInt().toString() + "м/c"
+            binding.tvHumidity.text = cityWeatherInfo.currentWeather!!.humidity.toString() + "%"
+        }else{
+            binding.tvCurrentTemp.text = ""
+            binding.imageCurrentWeatherIcon.visibility = View.GONE
+            binding.tvFeelsLikeTemp.text = ""
+            binding.tvSunrise.text = ""
+            binding.tvSunset.text = ""
+            binding.tvUvi.text = ""
+            binding.tvWindSpeed.text = ""
+            binding.tvHumidity.text = ""
+        }
+        if(cityWeatherInfo.dailyWeather.isNotEmpty()){
+            binding.tvDayNightTemp.text = cityWeatherInfo.dailyWeather[0].dayTemp.toInt().toString() + "°/" + cityWeatherInfo.dailyWeather[0].nightTemp.toInt().toString() + "°"
+        }else{
+            binding.tvDayNightTemp.text = ""
+        }
         binding.toolbar.title = cityWeatherInfo.cityName
-        binding.tvSunrise.text =
-            cityWeatherInfo.currentWeather!!.sunrise.format(DateTimeFormatter.ofPattern("HH:mm"))
-        binding.tvSunset.text =
-            cityWeatherInfo.currentWeather!!.sunset.format(DateTimeFormatter.ofPattern("HH:mm"))
-        binding.tvUvi.text = cityWeatherInfo.currentWeather!!.uvi.toInt().toString()
-        binding.tvWindSpeed.text =
-            cityWeatherInfo.currentWeather!!.windSpeed.toInt().toString() + "м/c"
-        binding.tvHumidity.text = cityWeatherInfo.currentWeather!!.humidity.toString() + "%"
     }
 
     override fun onResume() {

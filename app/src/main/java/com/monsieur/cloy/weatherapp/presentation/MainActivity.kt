@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         APP_ACTIVITY = this
-//        favoriteCityId = viewModel.loadFavoriteCityId()
-//        currentCityId = favoriteCityId
 
         replaceFragment(MainFragment(), false)
     }

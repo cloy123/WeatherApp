@@ -1,6 +1,6 @@
 package com.monsieur.cloy.data.repository
 
-import androidx.lifecycle.LiveData
+import android.util.Log
 import com.monsieur.cloy.data.api.WeatherApi
 import com.monsieur.cloy.data.mappers.CityWeatherMapper
 import com.monsieur.cloy.data.storage.CityWeatherStorage
@@ -22,19 +22,22 @@ class CityWeatherRepositoryImpl(
     private val weatherApi: WeatherApi
 ) : CityWeatherRepository {
 
-    @DelicateCoroutinesApi
     override suspend fun addNewCityWeather(addNewCityParam: AddNewCityParam) {
-        GlobalScope.launch {
+        withContext(Dispatchers.IO) {
             val cityWeather = CityWeather(
                 addNewCityParam.latitude,
                 addNewCityParam.longitude,
                 addNewCityParam.cityName,
                 addNewCityParam.region
             )
-            val response =
-                weatherApi.requestWeatherData(cityWeather.latitude, cityWeather.longitude)
-            if (response.isSuccessful && response.body() != null) {
-                cityWeather.updateWeatherData(response.body()!!)
+            try {
+                val response =
+                    weatherApi.requestWeatherData(cityWeather.latitude, cityWeather.longitude)
+                if (response.isSuccessful && response.body() != null) {
+                    cityWeather.updateWeatherData(response.body()!!)
+                }
+            }catch (e: Exception){
+                Log.d("my_log", e.toString())
             }
             cityWeatherStorage.insert(cityWeather)
         }
@@ -52,9 +55,8 @@ class CityWeatherRepositoryImpl(
         cityWeatherStorage.delete(id)
     }
 
-    @DelicateCoroutinesApi
     override suspend fun updateAllWeatherData() {
-        GlobalScope.launch {
+        withContext(Dispatchers.IO){
             val cities = cityWeatherStorage.getAll().first()
             for (city in cities) {
                 if (city.lastUpdateTimeUTC == null || LocalDateTime.ofEpochSecond(
@@ -63,13 +65,25 @@ class CityWeatherRepositoryImpl(
                         ZoneOffset.UTC
                     ).minusHours(1) > city.lastUpdateTimeUTC
                 ) {
-                    val response = weatherApi.requestWeatherData(city.latitude, city.longitude)
-                    if (response.isSuccessful && response.body() != null) {
-                        city.updateWeatherData(response.body()!!)
+                    try {
+                        val response = weatherApi.requestWeatherData(city.latitude, city.longitude)
+                        if (response.isSuccessful && response.body() != null) {
+                            city.updateWeatherData(response.body()!!)
+                        } else {
+                            Log.d("my_log", "MESSAGE - " + response.message())
+                            Log.d("my_log", "CODE - " + response.code().toString())
+                            Log.d("my_log", "ERROR_BODY - " + response.errorBody()?.toString())
+                        }
+                    }catch (e: Exception){
+                        Log.d("my_log", "exception - $e")
                     }
                 }
             }
             cityWeatherStorage.update(cities)
         }
     }
+
+//    override suspend fun updateCityWeatherById(id: Int) {
+//        TODO("Not yet implemented")
+//    }
 }

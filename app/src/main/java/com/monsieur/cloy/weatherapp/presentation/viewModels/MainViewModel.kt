@@ -1,9 +1,7 @@
 package com.monsieur.cloy.weatherapp.presentation.viewModels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.monsieur.cloy.domain.models.AddNewCityParam
@@ -11,7 +9,6 @@ import com.monsieur.cloy.domain.models.CityWeatherInfo
 import com.monsieur.cloy.weatherapp.presentation.model.City
 import com.monsieur.cloy.domain.usecase.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -31,9 +28,6 @@ class MainViewModel(
 
     val allCityWeatherInfo = getAllCityWeatherUseCase.execute()
 
-    override fun onCleared() {
-        super.onCleared()
-    }
 
     val favoriteCity: MutableLiveData<CityWeatherInfo?> = MutableLiveData()
     val currentCity: MutableLiveData<CityWeatherInfo> = MutableLiveData()
@@ -127,5 +121,4 @@ class MainViewModel(
             updateAllCityWeatherDataUseCase.execute()
         }
     }
-
 }

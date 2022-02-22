@@ -55,10 +55,17 @@ class CitiesRecyclerAdapter(): RecyclerView.Adapter<CitiesRecyclerAdapter.ViewHo
             val cityWeather = items[position]
             holder.cityName.text = cityWeather.cityName
             holder.cityRegion.text = cityWeather.region
-            holder.cityCurrentTemp.text = cityWeather.currentWeather?.temp?.toInt().toString() + "°"
-            holder.cityDayNightTemp.text = cityWeather.dailyWeather[0].dayTemp.toInt()
-                .toString() + "°/" + cityWeather.dailyWeather[0].nightTemp.toInt()
-                .toString() + "°"
+            if(cityWeather.currentWeather != null) {
+                holder.cityCurrentTemp.text =
+                    cityWeather.currentWeather!!.temp.toInt().toString() + "°"
+                val icon = cityWeather.currentWeather!!.weatherIcon
+                holder.cityWeatherIcon.setImageResource(getWeatherIconId(icon))
+            }
+            if(cityWeather.dailyWeather.isNotEmpty()){
+                holder.cityDayNightTemp.text = cityWeather.dailyWeather[0].dayTemp.toInt()
+                    .toString() + "°/" + cityWeather.dailyWeather[0].nightTemp.toInt()
+                    .toString() + "°"
+            }
             holder.card.setOnClickListener {
                 clickListener?.invoke(cityWeather)
             }
@@ -67,10 +74,6 @@ class CitiesRecyclerAdapter(): RecyclerView.Adapter<CitiesRecyclerAdapter.ViewHo
             }
             holder.makeFavoriteCity.setOnClickListener {
                 onMakeFavoriteCityListener?.invoke(cityWeather)
-            }
-            val icon = cityWeather.currentWeather?.weatherIcon
-            if(icon != null){
-                holder.cityWeatherIcon.setImageResource(getWeatherIconId(icon))
             }
         }
     }

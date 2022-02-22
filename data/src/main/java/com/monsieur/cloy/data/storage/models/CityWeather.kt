@@ -1,6 +1,7 @@
 package com.monsieur.cloy.data.storage.models
 
 import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -41,6 +42,7 @@ class CityWeather {
     var lastUpdateTimeUTC: LocalDateTime?
 
     @ColumnInfo(name = "currentWeather")
+    @Nullable
     var currentWeather: CurrentWeather?
 
     @ColumnInfo(name = "hourlyWeather")

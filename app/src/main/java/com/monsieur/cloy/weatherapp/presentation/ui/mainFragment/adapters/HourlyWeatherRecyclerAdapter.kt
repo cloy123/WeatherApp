@@ -32,10 +32,10 @@ class HourlyWeatherRecyclerAdapter(): RecyclerView.Adapter<HourlyWeatherRecycler
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(items.isNotEmpty()){
             val weather = items[position]
-            holder.pop.text = weather.pop.toInt().toString() + "%"
+            holder.pop.text = weather.pop.toString() + "%"
             holder.temp.text = weather.temp.toInt().toString() + "°"
             holder.time.text = weather.time.format(DateTimeFormatter.ofPattern("HH:mm"))
-            holder.popIcon.setImageResource(getPopIconId(weather.pop.toInt()))
+            holder.popIcon.setImageResource(getPopIconId(weather.pop))
             holder.weatherIcon.setImageResource(getWeatherIconId(weather.weatherIcon))
         }
     }

@@ -2,7 +2,6 @@ package com.monsieur.cloy.data.storage.models
 
 import com.monsieur.cloy.data.api.models.Current
 import java.time.*
-import java.time.format.DateTimeFormatter
 
 class CurrentWeather {
 

@@ -37,14 +37,17 @@ class CitiesNavViewRecyclerAdapter(): RecyclerView.Adapter<CitiesNavViewRecycler
         if(items.isNotEmpty()){
             val cityWeather = items[position]
             holder.city.text = cityWeather.cityName
-            holder.cityTemp.text = cityWeather.currentWeather?.temp?.toInt().toString() + "°"
+            if(cityWeather.currentWeather != null) {
+                holder.cityTemp.text = cityWeather.currentWeather?.temp?.toInt().toString() + "°"
+                val icon = cityWeather.currentWeather?.weatherIcon
+                if(icon != null){
+                    holder.cityWeatherIcon.setImageResource(getWeatherIconId(icon))
+                }
+            }
             holder.card.setOnClickListener {
                 clickListener?.invoke(cityWeather)
             }
-            val icon = cityWeather.currentWeather?.weatherIcon
-            if(icon != null){
-                holder.cityWeatherIcon.setImageResource(getWeatherIconId(icon))
-            }
+
         }
     }
 

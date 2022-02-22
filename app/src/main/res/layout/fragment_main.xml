@@ -34,7 +34,7 @@
                 app:contentInsetStart="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationIcon="@drawable/menu"
-                app:title="город" />
+                tools:title="город" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
@@ -68,7 +68,7 @@
                                 android:id="@+id/tv_current_temp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="-1°"
+                                tools:text="-1°"
                                 android:textSize="60sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -77,7 +77,7 @@
                                 android:id="@+id/tv_city_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="город"
+                                tools:text="город"
                                 android:textSize="26sp"
                                 app:layout_constraintTop_toBottomOf="@id/tv_current_temp" />
 
@@ -89,14 +89,14 @@
                                 app:layout_constraintBottom_toBottomOf="@id/tv_current_temp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="@id/tv_current_temp"
-                                app:srcCompat="@drawable/icon10d" />
+                                tools:srcCompat="@drawable/icon10d" />
 
                             <TextView
                                 android:id="@+id/tv_day_night_temp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
-                                android:text="-1°/-3°"
+                                tools:text="-1°/-3°"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/tv_city_name" />
 
@@ -104,7 +104,7 @@
                                 android:id="@+id/tv_feels_like_temp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ощущается как -7°"
+                                tools:text="Ощущается как -7°"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/tv_day_night_temp" />
 

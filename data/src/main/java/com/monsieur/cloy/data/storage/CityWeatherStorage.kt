@@ -1,6 +1,5 @@
 package com.monsieur.cloy.data.storage
 
-import androidx.lifecycle.LiveData
 import com.monsieur.cloy.data.db.CityWeatherDao
 import com.monsieur.cloy.data.storage.models.CityWeather
 import kotlinx.coroutines.CoroutineDispatcher

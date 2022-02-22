@@ -23,6 +23,15 @@
         <entry key="..\:/Desktop/WeatherApp/app/src/main/res/layout/sidebar_layout.xml" value="0.1" />
         <entry key="..\:/Desktop/WeatherApp/app/src/main/res/menu/add_city_menu.xml" value="0.446875" />
         <entry key="..\:/Desktop/WeatherApp/app/src/main/res/menu/place_management_menu.xml" value="0.446875" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/cities_navigation_view_card.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/city_card.xml" value="0.25" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/daily_weather_card.xml" value="0.25" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/fragment_add_city.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/fragment_main.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/fragment_place_management.xml" value="0.25" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/hourly_weather_card.xml" value="0.25" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/place_management_city_card.xml" value="0.25" />
+        <entry key="..\:/Users/cosoy/Desktop/Weather/app/src/main/res/layout/sidebar_layout.xml" value="0.25" />
       </map>
     </option>
   </component>
