@@ -32,4 +32,16 @@ class WeatherApi(private val apiKey: String, private val units: String, private 
         )
         return response.execute()
     }
+
+    fun requestWeatherData(latitude:Double, longitude:Double, callback: Callback<OneCallWeatherData>) {
+        val openWeatherMapApi = retrofit.create(OpenWeatherMapApi::class.java)
+        val response = openWeatherMapApi.getOneCallWeatherData(
+            latitude.toString(),
+            longitude.toString(),
+            apiKey,
+            units,
+            lang
+        )
+        return response.enqueue(callback)
+    }
 }

@@ -31,7 +31,7 @@ val dataModule = module {
             androidContext(),
             WeatherDatabase::class.java,
             "weather_database")
-            .build()
+            .createFromAsset("database/weather_database.db").build()
     }
 
     single<CityWeatherDao> {

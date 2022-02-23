@@ -2,6 +2,7 @@ package com.monsieur.cloy.data.repository
 
 import android.util.Log
 import com.monsieur.cloy.data.api.WeatherApi
+import com.monsieur.cloy.data.api.models.OneCallWeatherData
 import com.monsieur.cloy.data.mappers.CityWeatherMapper
 import com.monsieur.cloy.data.storage.CityWeatherStorage
 import com.monsieur.cloy.data.storage.models.CityWeather
@@ -12,6 +13,9 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -22,8 +26,9 @@ class CityWeatherRepositoryImpl(
     private val weatherApi: WeatherApi
 ) : CityWeatherRepository {
 
+    @DelicateCoroutinesApi
     override suspend fun addNewCityWeather(addNewCityParam: AddNewCityParam) {
-        withContext(Dispatchers.IO) {
+        GlobalScope.launch {
             val cityWeather = CityWeather(
                 addNewCityParam.latitude,
                 addNewCityParam.longitude,
@@ -31,18 +36,18 @@ class CityWeatherRepositoryImpl(
                 addNewCityParam.region
             )
             cityWeather.id = cityWeatherStorage.insert(cityWeather).toInt()
-            try {
-                val response =
-                    weatherApi.requestWeatherData(cityWeather.latitude, cityWeather.longitude)
-                if (response.isSuccessful && response.body() != null) {
-                    cityWeather.updateWeatherData(response.body()!!)
+                try {
+                    val response = weatherApi.requestWeatherData(cityWeather.latitude, cityWeather.longitude)
+                    if (response.isSuccessful && response.body() != null) {
+                        cityWeather.updateWeatherData(response.body()!!)
+                        cityWeatherStorage.update(cityWeather)
+                    }
+                } catch (e: Exception) {
+                    Log.d("my_log", e.toString())
                 }
-            }catch (e: Exception){
-                Log.d("my_log", e.toString())
-            }
-            cityWeatherStorage.update(cityWeather)
         }
     }
+
 
     override fun getAllCityWeather(): Flow<List<CityWeatherInfo>> {
         return cityWeatherStorage.getAll().map { list ->

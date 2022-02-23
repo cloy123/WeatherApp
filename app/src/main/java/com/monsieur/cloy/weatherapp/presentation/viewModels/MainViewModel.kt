@@ -43,6 +43,9 @@ class MainViewModel(
 
             allCityWeatherInfo.collect {
                 if(it.isEmpty()){
+                    favoriteCity.postValue(null)
+                    currentCity.postValue(CityWeatherInfo(0, 0.0, 0.0, 0, "", "", null, null, ArrayList(), ArrayList()))
+                    otherCities.postValue(ArrayList())
                     return@collect
                 }
                 cityWeatherInfo = it
@@ -71,9 +74,7 @@ class MainViewModel(
                     otherCities.postValue(it)
                 }
             }
-
         }
-
     }
 
     fun setFavoriteCity(id: Int){
