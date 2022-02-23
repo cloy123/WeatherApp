@@ -16,25 +16,23 @@ class CityWeatherStorage(
     }
 
     suspend fun delete(id: Int) {
-        withContext(dispatcher){
+        withContext(dispatcher) {
             cityWeatherDao.deleteCityWeatherById(id)
         }
     }
 
-    suspend fun insert(cityWeather: CityWeather) {
-        withContext(dispatcher){
-            cityWeatherDao.insertCityWeather(cityWeather)
-        }
+    suspend fun insert(cityWeather: CityWeather): Long {
+        return cityWeatherDao.insertCityWeather(cityWeather)
     }
 
     suspend fun update(cityWeather: CityWeather) {
-        withContext(dispatcher){
+        withContext(dispatcher) {
             cityWeatherDao.updateCityWeather(cityWeather)
         }
     }
 
-    suspend fun update(listCityWeather: List<CityWeather>){
-        withContext(dispatcher){
+    suspend fun update(listCityWeather: List<CityWeather>) {
+        withContext(dispatcher) {
             cityWeatherDao.updateCityWeather(listCityWeather)
         }
     }

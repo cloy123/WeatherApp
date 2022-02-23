@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface CityWeatherDao {
 
     @Insert
-    suspend fun insertCityWeather(cityWeather: CityWeather)
+    suspend fun insertCityWeather(cityWeather: CityWeather): Long
 
     @Update
     suspend fun updateCityWeather(cityWeather: CityWeather)

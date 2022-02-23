@@ -30,6 +30,7 @@ class CityWeatherRepositoryImpl(
                 addNewCityParam.cityName,
                 addNewCityParam.region
             )
+            cityWeather.id = cityWeatherStorage.insert(cityWeather).toInt()
             try {
                 val response =
                     weatherApi.requestWeatherData(cityWeather.latitude, cityWeather.longitude)
@@ -39,7 +40,7 @@ class CityWeatherRepositoryImpl(
             }catch (e: Exception){
                 Log.d("my_log", e.toString())
             }
-            cityWeatherStorage.insert(cityWeather)
+            cityWeatherStorage.update(cityWeather)
         }
     }
 
